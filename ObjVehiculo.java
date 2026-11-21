@@ -8,10 +8,10 @@ public class ObjVehiculo {
     private String TipoCombustible; // 1 Gasolina, 2 Diesel, 3 Electrico
     private String Transmision; // 1 Manual, 2 Automatica
     private String Traccion; // 1 4x2, 2 4x4
-    private float CapacidadMaletero; // En listros
+    private double CapacidadMaletero; // En listros
 
     public ObjVehiculo(String placa, String marca, int modelo, Double precioDiario, String estado, String tipo,
-            String tipoCombustible, String transmision, String traccion, float capacidadMaletero) {
+            String tipoCombustible, String transmision, String traccion, double capacidadMaletero) {
         Placa = placa;
         Marca = marca;
         Modelo = modelo;
@@ -77,10 +77,10 @@ public class ObjVehiculo {
     public void setTraccion(String traccion) {
         Traccion = traccion;
     }
-    public float getCapacidadMaletero() {
+    public double getCapacidadMaletero() {
         return CapacidadMaletero;
     }
-    public void setCapacidadMaletero(float capacidadMaletero) {
+    public void setCapacidadMaletero(double capacidadMaletero) {
         CapacidadMaletero = capacidadMaletero;
     }
 
