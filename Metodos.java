@@ -104,7 +104,7 @@ public class Metodos {
         return volver;
     }
 
-    public boolean SubMenuContratos(LinkedList<ObjContratoRenting> co, LinkedList<ObjCliente> cl, LinkedList<ObjVehiculo> ve, Scanner sc) {
+    public boolean SubMenuContratos(LinkedList<ObjContratoRenting> co, LinkedList<ObjContratoRenting> coFinalizados, LinkedList<ObjCliente> cl, LinkedList<ObjVehiculo> ve, Scanner sc) {
         boolean volver = false;
         while (!volver) {
             System.out.println("__________________________________________________");
@@ -126,7 +126,7 @@ public class Metodos {
                     co = ModificarContrato(co, ve, sc);
                     break;
                 case 3:
-                    co = FinalizarContrato(co, ve, sc);
+                    co = FinalizarContrato(co, coFinalizados, ve, sc);
                     break;
                 case 4:
                     System.out.println(BuscarContrato(co, sc));
@@ -292,7 +292,6 @@ public class Metodos {
             return cl;
         }
 
-        // Si tenia contrato, liberar vehiculo y eliminar contrato
         for (int i = 0; i < co.size(); i++) {
             if (co.get(i).getCedulaCliente().equalsIgnoreCase(cedula)) {
                 String placaAuto = co.get(i).getPlacaVehiculo();
@@ -733,7 +732,7 @@ public class Metodos {
         return co;
     }
 
-    public LinkedList<ObjContratoRenting> FinalizarContrato(LinkedList<ObjContratoRenting> co, LinkedList<ObjVehiculo> ve, Scanner sc) {
+    public LinkedList<ObjContratoRenting> FinalizarContrato(LinkedList<ObjContratoRenting> co, LinkedList<ObjContratoRenting> coFinalizados, LinkedList<ObjVehiculo> ve, Scanner sc) {
         if (co.isEmpty()) {
             System.out.println("No hay contratos activos para finalizar.");
             System.out.println("________________________________________");
@@ -753,7 +752,7 @@ public class Metodos {
 
         if (encontrado == null) {
             System.out.println("No se encontro ningun contrato con el Id: " + idContrato);
-            System.out.println("_________________________________________");
+            System.out.println("________________________________________");
             System.out.println("");
             return co;
         }
@@ -765,10 +764,109 @@ public class Metodos {
             }
         }
 
+        coFinalizados.add(encontrado);
         co.remove(encontrado);
         System.out.println("Contrato finalizado y vehiculo devuelto exitosamente.");
-        System.out.println("_____________________________________________________");
+        System.out.println("________________________________________");
         System.out.println("");
         return co;
+    }
+
+    //INFORMES
+
+    public String Mostrar(ObjCliente o) {
+        System.out.println("Cedula: " + o.getCedula());
+        System.out.println("Nombre: " + o.getNombre() + " " + o.getApellido());
+        System.out.println("Telefono: " + o.getTelefono());
+        System.out.println("Direccion: " + o.getDireccion());
+        System.out.println("Licencia: " + o.getLicenciaConduccion());
+        System.out.println("--------------------------------------------------");
+        return "";
+    }
+
+    public String Mostrar(ObjVehiculo o) {
+        System.out.println("Placa: " + o.getPlaca());
+        System.out.println("Marca: " + o.getMarca());
+        System.out.println("Modelo: " + o.getModelo());
+        System.out.println("Precio Diario: $" + o.getPrecioDiario());
+        System.out.println("Estado: " + o.getEstado());
+        System.out.println("Tipo: " + o.getTipo());
+        System.out.println("Combustible: " + o.getTipoCombustible());
+        System.out.println("Transmision: " + o.getTransmision());
+        System.out.println("Traccion: " + o.getTraccion());
+        System.out.println("Maletero: " + o.getCapacidadMaletero() + " L");
+        System.out.println("--------------------------------------------------");
+        return "";
+    }
+
+    public String Mostrar(ObjContratoRenting o) {
+        System.out.println("Id Contrato: " + o.getIdContrato());
+        System.out.println("Cedula Cliente: " + o.getCedulaCliente());
+        System.out.println("Placa Vehiculo: " + o.getPlacaVehiculo());
+        System.out.println("Fecha Inicio: " + o.getFechaInicio());
+        System.out.println("Fecha Fin: " + o.getFechaFin());
+        System.out.println("Total Dias: " + o.getTotalDias());
+        System.out.println("Valor Total: $" + o.getValorTotal());
+        System.out.println("--------------------------------------------------");
+        return "";
+    }
+
+    public Double TotalIngresos(LinkedList<ObjContratoRenting> co, LinkedList<ObjContratoRenting> coFinalizados) {
+        Double total = 0.0;
+        for (ObjContratoRenting o : co) {
+            total = total + o.getValorTotal();
+        }
+        for (ObjContratoRenting o : coFinalizados) {
+            total = total + o.getValorTotal();
+        }
+        return total;
+    }
+
+    public String MostrarInformeGeneral(LinkedList<ObjCliente> cl, LinkedList<ObjVehiculo> ve, LinkedList<ObjContratoRenting> co, LinkedList<ObjContratoRenting> coFinalizados) {
+        System.out.println("______________________________________________________");
+        System.out.println("Informe General del Sistema de Renting Nacho Lee Final");
+        System.out.println("______________________________________________________");
+
+        System.out.println("Listado de clientes:");
+        if (cl.isEmpty()) {
+            System.out.println("No hay clientes registrados.");
+        } else {
+            for (ObjCliente o : cl) {
+                Mostrar(o);
+            }
+        }
+
+        System.out.println("Listado de vehiculos:");
+        if (ve.isEmpty()) {
+            System.out.println("No hay vehiculos registrados.");
+        } else {
+            for (ObjVehiculo o : ve) {
+                Mostrar(o);
+            }
+        }
+
+        System.out.println("Contratos activos:");
+        if (co.isEmpty()) {
+            System.out.println("No hay contratos activos.");
+        } else {
+            for (ObjContratoRenting o : co) {
+                Mostrar(o);
+            }
+        }
+
+        System.out.println("Contratos finalizados:");
+        if (coFinalizados.isEmpty()) {
+            System.out.println("No hay contratos finalizados.");
+        } else {
+            for (ObjContratoRenting o : coFinalizados) {
+                Mostrar(o);
+            }
+        }
+
+        Double total = TotalIngresos(co, coFinalizados);
+        System.out.println("Total Ingresos por Contratos: $" + total);
+        System.out.println("______________________________________________________");
+        System.out.println("");
+        return "Informe general generado exitosamente.";
     }
 }
