@@ -8,6 +8,7 @@ public class Menu {
         LinkedList<ObjCliente> cl = new LinkedList<>();
         LinkedList<ObjVehiculo> ve = new LinkedList<>();
         LinkedList<ObjContratoRenting> co = new LinkedList<>();
+        LinkedList<ObjContratoRenting> coFinalizados = new LinkedList<>();
         boolean continuar = true;
         while (continuar) {
             switch (m.MenuPrincipal(sc)) {
@@ -18,10 +19,10 @@ public class Menu {
                     m.SubMenuVehiculos(ve, sc);
                     break;
                 case 3:
-                    m.SubMenuContratos(co, cl, ve, sc);
+                    m.SubMenuContratos(co, coFinalizados, cl, ve, sc);
                     break;
                 case 4:
-                    System.out.println("Imprimir informe general (en Construccion)");
+                    m.MostrarInformeGeneral(cl, ve, co, coFinalizados);
                     break;
                 case 5:
                     System.out.println("Gracias por usar el sistema de renting Nacho Lee Final. Vuelva pronto.");
